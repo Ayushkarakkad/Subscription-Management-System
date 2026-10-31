@@ -1,0 +1,454 @@
+{
+  "info": {
+    "_postman_id": "c86e0c03-5247-49f3-85bb-b9b6e22f2549",
+    "name": "Subscription Management System - Member 3 APIs",
+    "description": "Postman collection covering Product Management, Plan Management, Tax Management, and Discount Management APIs.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:5000/api", "type": "string" },
+    { "key": "token", "value": "", "type": "string" },
+    { "key": "productId", "value": "", "type": "string" },
+    { "key": "variantId", "value": "", "type": "string" },
+    { "key": "planId", "value": "", "type": "string" },
+    { "key": "taxId", "value": "", "type": "string" },
+    { "key": "discountId", "value": "", "type": "string" }
+  ],
+  "item": [
+    {
+      "name": "1. Authentication",
+      "item": [
+        {
+          "name": "Login Admin",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"admin@example.com\",\n  \"password\": \"Password123!\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/auth/login", "host": ["{{baseUrl}}"], "path": ["auth", "login"] }
+          }
+        },
+        {
+          "name": "Login Staff",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"staff@example.com\",\n  \"password\": \"Password123!\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/auth/login", "host": ["{{baseUrl}}"], "path": ["auth", "login"] }
+          }
+        },
+        {
+          "name": "Login Customer",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"customer@example.com\",\n  \"password\": \"Password123!\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/auth/login", "host": ["{{baseUrl}}"], "path": ["auth", "login"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "2. Products",
+      "item": [
+        {
+          "name": "List Products",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": { "raw": "{{baseUrl}}/products?page=1&limit=10&search=", "host": ["{{baseUrl}}"], "path": ["products"] }
+          }
+        },
+        {
+          "name": "Create Product",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Enterprise Cloud Storage\",\n  \"type\": \"SERVICE\",\n  \"description\": \"Cloud storage with automated daily backups\",\n  \"salesPrice\": 499.00,\n  \"costPrice\": 200.00,\n  \"isActive\": true,\n  \"variants\": [\n    {\n      \"name\": \"Storage Tier\",\n      \"value\": \"500GB\",\n      \"priceExtra\": 0\n    },\n    {\n      \"name\": \"Storage Tier\",\n      \"value\": \"2TB\",\n      \"priceExtra\": 400.00\n    }\n  ]\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/products", "host": ["{{baseUrl}}"], "path": ["products"] }
+          }
+        },
+        {
+          "name": "Get Product by ID",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": { "raw": "{{baseUrl}}/products/{{productId}}", "host": ["{{baseUrl}}"], "path": ["products", "{{productId}}"] }
+          }
+        },
+        {
+          "name": "Update Product",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Enterprise Cloud Storage v2\",\n  \"salesPrice\": 549.00\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/products/{{productId}}", "host": ["{{baseUrl}}"], "path": ["products", "{{productId}}"] }
+          }
+        },
+        {
+          "name": "Change Product Status",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"isActive\": false\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/products/{{productId}}/status", "host": ["{{baseUrl}}"], "path": ["products", "{{productId}}", "status"] }
+          }
+        },
+        {
+          "name": "Create Product Variant",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Support Level\",\n  \"value\": \"24/7 Dedicated\",\n  \"priceExtra\": 1500.00\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/products/{{productId}}/variants", "host": ["{{baseUrl}}"], "path": ["products", "{{productId}}", "variants"] }
+          }
+        },
+        {
+          "name": "List Product Variants",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": { "raw": "{{baseUrl}}/products/{{productId}}/variants", "host": ["{{baseUrl}}"], "path": ["products", "{{productId}}", "variants"] }
+          }
+        },
+        {
+          "name": "Update Product Variant",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"priceExtra\": 1800.00\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/products/{{productId}}/variants/{{variantId}}", "host": ["{{baseUrl}}"], "path": ["products", "{{productId}}", "variants", "{{variantId}}"] }
+          }
+        },
+        {
+          "name": "Change Variant Status",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"isActive\": false\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/products/{{productId}}/variants/{{variantId}}/status", "host": ["{{baseUrl}}"], "path": ["products", "{{productId}}", "variants", "{{variantId}}", "status"] }
+          }
+        },
+        {
+          "name": "Delete Variant",
+          "request": {
+            "method": "DELETE",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": { "raw": "{{baseUrl}}/products/{{productId}}/variants/{{variantId}}", "host": ["{{baseUrl}}"], "path": ["products", "{{productId}}", "variants", "{{variantId}}"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "3. Subscription Plans",
+      "item": [
+        {
+          "name": "List Plans",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": { "raw": "{{baseUrl}}/plans?page=1&limit=10&billingInterval=MONTHLY", "host": ["{{baseUrl}}"], "path": ["plans"] }
+          }
+        },
+        {
+          "name": "Create Plan",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Professional Annual Plan\",\n  \"description\": \"Comprehensive business tier billed yearly\",\n  \"price\": 9999.00,\n  \"billingInterval\": \"YEARLY\",\n  \"minimumQuantity\": 1,\n  \"startDate\": \"2026-01-01T00:00:00.000Z\",\n  \"endDate\": \"2028-01-01T00:00:00.000Z\",\n  \"autoClose\": false,\n  \"allowEarlyClose\": true,\n  \"allowPause\": true,\n  \"allowRenewal\": true,\n  \"isActive\": true\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/plans", "host": ["{{baseUrl}}"], "path": ["plans"] }
+          }
+        },
+        {
+          "name": "Get Plan by ID",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": { "raw": "{{baseUrl}}/plans/{{planId}}", "host": ["{{baseUrl}}"], "path": ["plans", "{{planId}}"] }
+          }
+        },
+        {
+          "name": "Update Plan",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"price\": 10499.00,\n  \"description\": \"Updated annual tier\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/plans/{{planId}}", "host": ["{{baseUrl}}"], "path": ["plans", "{{planId}}"] }
+          }
+        },
+        {
+          "name": "Change Plan Status",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"isActive\": false\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/plans/{{planId}}/status", "host": ["{{baseUrl}}"], "path": ["plans", "{{planId}}", "status"] }
+          }
+        },
+        {
+          "name": "Add Product to Plan",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"productId\": \"{{productId}}\",\n  \"quantity\": 2,\n  \"unitPrice\": 450.00\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/plans/{{planId}}/products", "host": ["{{baseUrl}}"], "path": ["plans", "{{planId}}", "products"] }
+          }
+        },
+        {
+          "name": "List Plan Products",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": { "raw": "{{baseUrl}}/plans/{{planId}}/products", "host": ["{{baseUrl}}"], "path": ["plans", "{{planId}}", "products"] }
+          }
+        },
+        {
+          "name": "Remove Product from Plan",
+          "request": {
+            "method": "DELETE",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": { "raw": "{{baseUrl}}/plans/{{planId}}/products/{{productId}}", "host": ["{{baseUrl}}"], "path": ["plans", "{{planId}}", "products", "{{productId}}"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "4. Taxes",
+      "item": [
+        {
+          "name": "List Taxes",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": { "raw": "{{baseUrl}}/taxes?page=1&limit=10", "host": ["{{baseUrl}}"], "path": ["taxes"] }
+          }
+        },
+        {
+          "name": "Create Tax",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"GST 18%\",\n  \"rate\": 18.00,\n  \"description\": \"Goods and Services Tax standard rate\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/taxes", "host": ["{{baseUrl}}"], "path": ["taxes"] }
+          }
+        },
+        {
+          "name": "Get Tax by ID",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": { "raw": "{{baseUrl}}/taxes/{{taxId}}", "host": ["{{baseUrl}}"], "path": ["taxes", "{{taxId}}"] }
+          }
+        },
+        {
+          "name": "Update Tax",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"rate\": 18.50,\n  \"description\": \"Revised GST rate\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/taxes/{{taxId}}", "host": ["{{baseUrl}}"], "path": ["taxes", "{{taxId}}"] }
+          }
+        },
+        {
+          "name": "Change Tax Status",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"isActive\": false\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/taxes/{{taxId}}/status", "host": ["{{baseUrl}}"], "path": ["taxes", "{{taxId}}", "status"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "5. Discounts",
+      "item": [
+        {
+          "name": "List Discounts",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": { "raw": "{{baseUrl}}/discounts?page=1&limit=10&scope=BOTH", "host": ["{{baseUrl}}"], "path": ["discounts"] }
+          }
+        },
+        {
+          "name": "Create Discount",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"New Customer 15% Off\",\n  \"type\": \"PERCENTAGE\",\n  \"scope\": \"BOTH\",\n  \"value\": 15.00,\n  \"minimumPurchase\": 500.00,\n  \"minimumQuantity\": 1,\n  \"maxUses\": 1000,\n  \"isActive\": true\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/discounts", "host": ["{{baseUrl}}"], "path": ["discounts"] }
+          }
+        },
+        {
+          "name": "Get Discount by ID",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": { "raw": "{{baseUrl}}/discounts/{{discountId}}", "host": ["{{baseUrl}}"], "path": ["discounts", "{{discountId}}"] }
+          }
+        },
+        {
+          "name": "Update Discount",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"maxUses\": 2000,\n  \"minimumPurchase\": 600.00\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/discounts/{{discountId}}", "host": ["{{baseUrl}}"], "path": ["discounts", "{{discountId}}"] }
+          }
+        },
+        {
+          "name": "Change Discount Status",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"isActive\": false\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/discounts/{{discountId}}/status", "host": ["{{baseUrl}}"], "path": ["discounts", "{{discountId}}", "status"] }
+          }
+        },
+        {
+          "name": "Associate Product with Discount",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"productId\": \"{{productId}}\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/discounts/{{discountId}}/products", "host": ["{{baseUrl}}"], "path": ["discounts", "{{discountId}}", "products"] }
+          }
+        },
+        {
+          "name": "List Products Associated with Discount",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": { "raw": "{{baseUrl}}/discounts/{{discountId}}/products", "host": ["{{baseUrl}}"], "path": ["discounts", "{{discountId}}", "products"] }
+          }
+        },
+        {
+          "name": "Validate & Calculate Discount",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"discountId\": \"{{discountId}}\",\n  \"amount\": 1000.00,\n  \"quantity\": 1\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/discounts/validate", "host": ["{{baseUrl}}"], "path": ["discounts", "validate"] }
+          }
+        }
+      ]
+    }
+  ]
+}
